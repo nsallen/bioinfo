@@ -1,12 +1,17 @@
 #The following packages only need to be installed once:
 install.packages("seqinr")
 install.packages("ggplot2")
+install.packages("lattice")
 
 #Actual code begins here:
 library(seqinr)
 library(ggplot2)
+library(lattice)
 
 read.csv("OverviewSelCoeff_BachelerFilter.csv") -> CSV
+
+
+### JACOB'S CODE ###
 
 #all green points for the left synonomous site graph
 a <- frequenciesOfSynAmutsNONCP <- CSV[which(((CSV[, 4] == "syn"  )|(CSV[, 4] ==  "overlap")) & (CSV[, 7] == "a")),3]
@@ -34,20 +39,15 @@ n <- frequenciesOfNONSynCmutsDRASTIC <- CSV[which((CSV[, 4] == "nonsyn"  ) & (CS
 o <- frequenciesOfNONSynAmutsCPDRASTIC <- CSV[which(((CSV[, 4] == "nonsyn"  ) & (CSV[, 7] == "a")& (CSV[, 14] == "1") &(CSV[, 15] == "1"))),3]
 p <- frequenciesOfNONSynTmutsCPDRASTIC <- CSV[which(((CSV[, 4] == "nonsyn"  ) & (CSV[, 7] == "t")& (CSV[, 14] == "1") &(CSV[, 15] == "1"))),3]
 
-a
-class(a)
+
 pugs <- data.frame(a)
-pugs
-class(pugs)
 tst = c(1,5,10,20)
 
 plot(tst)
 plot(pugs)
 
-
-NUMS<-a
+NUMS <- a
 ddf = data.frame(NUMS, GRP = "a",replace=T)
-library(lattice)
 
 stripplot(NUMS,data=ddf, jitter.data=T)
 
@@ -71,14 +71,8 @@ ggplot() +
   geom_point( data = data.frame(d), aes(x=labels[2], y=d, color ="blue"), size = 0.7, position=position_jitter(width=.0025, height=0))+
   geom_point( data = data.frame(mean(b)), mapping = aes(x="A to gg", y=mean.b., color = "green"), size = 2.0) +
   geom_point( data = data.frame(b), aes(x="A to gg", y=b, color ="green"), size = 0.7, position=position_jitter(width=.0025, height=0))
-b
-mylist <- list(a,b)
-mylist
-a
-b
 
-mean(b)
-mean(b)
+mylist <- list(a,b)
 
 n <- max(length(a), length(b), length(c), length(d), length(e), length(f), length(g), length(h), length(i), length(j))
 length(a) <- n
@@ -93,11 +87,8 @@ length(i) <- n
 length(j) <- n
 
 vbmn <- rep (bmn,n)
-vbmn
 vamn <- rep (amn,n)
-vamn
 df1 <- data.frame(a,vamn,b,vbmn,c,d,e,f,g,h,i,j)
-df1
 zz <- 0.03
 
 ggplot() +
@@ -123,8 +114,6 @@ labels <- c("T to C","A to T","C to T","G to A", " T to C ")
 col1 <- c(0.0)
 amn <- mean(a)
 bmn <- mean(b, na.rm = TRUE)
-bmn
-b
 
 n <- max(length(a), length(b), length(c), length(d), length(e), length(f), length(g), length(h), length(i), length(j))
 length(a) <- n
@@ -139,14 +128,10 @@ length(i) <- n
 length(j) <- n
 
 vbmn <- rep (bmn,n)
-vbmn
 vamn <- rep (amn,n)
-vamn
 
 c <- rep(col1,n)
 df1<-data.frame(a,vamn,b,vbmn,c,d,e,f,g,h,i,j)
-df1
-c
 se = 0.002
 
 ggplot() +
@@ -204,9 +189,10 @@ ggplot() +
                       geom_density(alpha = 0.5))
             }
             
-            d[,1]
-            d
+
             
+            
+#### JENNIFER'S CODE ###
             
 #left plot (Synonymous Sites)
             
