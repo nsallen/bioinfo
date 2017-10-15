@@ -231,18 +231,18 @@ par(mfrow=c(1,4))
 plot(frequenciesOfNONSynAmutsNONCP,type="p",col="dark green",
                  xlab="A->G", ylab="Mutation Frequency",
                  xaxt="n")
-            points(frequenciesOfNONSynAmutsDRASTIC, col="darkyellow")
+            points(frequenciesOfNONSynAmutsDRASTIC, col="gold")
             points(frequenciesOfNONSynAmutsCPDRASTIC, col="red")
 plot(frequenciesOfSynTmutsNONCP,type="p",col="dark green",
                  xlab="T->C", ylab="Mutation Frequency",
                  xaxt="n")
-            points(frequenciesOfNONSynTmutsDRASTIC, col="darkyellow")
+            points(frequenciesOfNONSynTmutsDRASTIC, col="gold")
             points(frequenciesOfNONSynTmutsCPDRASTIC, col="red")
 plot(frequenciesOfSynCmutsNONCP, type="p", col="dark green",
                  xlab= "C->T", ylab="Mutation Frequency",
                  xaxt="n")
-            points(frequenciesOfNONSynCmutsDRASTIC, col="darkyellow")
+            points(frequenciesOfNONSynCmutsDRASTIC, col="gold")
 plot(frequenciesOfSynGmutsNONCP, type="p", col="dark green",
                  xlab= "G->A", ylab="Mutation Frequency",
                  xaxt="n")
-            points(frequenciesOfNONSynGmutsDRASTIC, col="darkyellow")
+            points(frequenciesOfNONSynGmutsDRASTIC, col="gold")
