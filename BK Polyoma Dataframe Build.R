@@ -18,10 +18,7 @@ View(BKseq)
 numCons <- length(which(BKseq[,1]==PolyCon[1]))
 numCons
 
-# Determines transition mutations from the consensus
-numTrans<-length(which(BKseq[,1]=="g"))
-numTrans
-
+# Building a transition function
 transition <- function(nt){
   if(nt=="a") {return("g")}
   if(nt=="g") {return("a")}
@@ -29,7 +26,27 @@ transition <- function(nt){
   if(nt=="t") {return("c")}
   }
 
-BKtrans <- transition(PolyCon)
+# Creates a new variable to make an empty data frame with exact number of rows
+pos<-c(1:length(PolyCon))
 
-numTrans<-length(which(BKseq[,12]==transition(PolyCon[12])))
-numTrans
+# Creates the data frame with 1089 rows 
+BKdata<-data.frame(pos)
+
+# Creates 2 new columns 
+BKdata$nt=""
+BKdata$tr=""
+View(BKdata)
+
+# Places BK polyoma consensus nucleotides into position
+PolyCon -> BKdata$nt
+
+# Determines transition nucleotides from consensus matrix
+BKtrans<-c()
+for(i in 1:length(PolyCon)){
+  trans_letter<-transition(PolyCon[i])
+  BKtrans<-c(BKtrans,trans_letter)
+}
+
+BKtrans
+
+### WHAT'S LEFT TO DO: Calculate frequency of transition mutations from each sequence for each nucleotide position (% out of 116 possible) compared to consensus sequence
