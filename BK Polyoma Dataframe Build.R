@@ -14,29 +14,29 @@ BKseq
 
 detach("package:ape", unload=TRUE)
 # Determines the consensus of BK Polyoma alignment
-PolyCon <- consensus(PolyDF)
-length(PolyCon)
+WTnt <- consensus(PolyDF)
+length(WTnt)
 
 # Counts the total number of sequences in BK Polyoma data
-numCons <- length(which(BKseq[,1]==PolyCon[1]))
+numCons <- length(which(BKseq[,1]==WTnt[1]))
 numCons
 
 
 transition <- function(nt){
-if(nt=="a") {return("g")}
-if(nt=="g") {return("a")}
-if(nt=="c") {return("t")}
-if(nt=="t") {return("c")}}
+  if(nt=="a") {return("g")}
+  if(nt=="g") {return("a")}
+  if(nt=="c") {return("t")}
+  if(nt=="t") {return("c")}}
 
-numTrans<-c()
+MeanFreq<-c()
 for (i in 1:ncol(BKseq)){
-  numTrans<-c(numTrans,(length(which(BKseq[,i]==transition(PolyCon[i])))/ncol(BKseq)))
+  MeanFreq<-c(MeanFreq,(length(which(BKseq[,i]==transition(WTnt[i])))/ncol(BKseq)))
 }
 
-locNum<-c(1:length(PolyCon))
-df<-data.frame(locNum)
-df<-cbind(df,PolyCon)
-df<-cbind(df,numTrans)
-dffin<-df[-which(df$numTrans ==0.0),]
+num<-c(1:length(WTnt))
+df<-data.frame(num)
+df<-cbind(df,WTnt)
+df<-cbind(df,MeanFreq)
+dffin<-df[-which(df$MeanFreq ==0.0),]
 dffin
 View(dffin)
