@@ -1,13 +1,16 @@
 ### THESE PACKAGES MUST BE INSTALLED ONLY ONCE:
-install.packages("ggplot2")
-install.packages("plyr")
-install.packages("grid")
-install.packages("gridExtra")
-install.packages("scales")
+#install.packages("ggplot2")
+#install.packages("plyr")
+#install.packages("grid")
+#install.packages("ape")
+#install.packages("seqinr")
+#install.packages("gridExtra")
 
-### CODE BEGINS HERE:
-### SET YOUR WORKING DIRECTORY BEFORE STARTING:
-read.csv("OverviewSelCoeff_BachelerFilter.csv") -> CSV
+### SET YOUR WORKING DIRECTORY BEFORE STARTING 
+### AND READ CSV FILE (WHATEVER YOU CALLED YOUR PRACTICE DATA):
+
+setwd("~/Desktop/Bioinformatics (Biol 738)/Midterm Project/")
+read.csv("HIV practice data.csv") -> CSV
 
 library(ggplot2)
 library(plyr)
@@ -15,17 +18,18 @@ library(grid)
 library(scales)
 library(gridExtra)
 
+###########################################
+#### FUNCTION FOR FIGURE 3 STARTS HERE ####
+###########################################
 
 pug<-function(dfx){
-
+  
   CSV<-dfx
   
   class(CSV)
+  
   ##SYN SITES (LEFT GRAPH)
-  #all green points for the left synonomous site grapha
-  
-  
-  
+  #all green points for the left synonomous site graphs
   a <- frequenciesOfSynAmutsNONCP <- CSV[which(((CSV$TypeOfSite == "syn"  )) & (CSV$WTnt == "a" & (CSV$bigAAChange == "0") &(CSV$makesCpG == "0"))),"MeanFreq"]
   summary(a)
   c <- frequenciesOfSynAmutsNONCP <- CSV[which(((CSV$TypeOfSite == "syn"  )) & (CSV$WTnt == "t" & (CSV$bigAAChange == "0") &(CSV$makesCpG == "0"))),"MeanFreq"]
@@ -39,7 +43,7 @@ pug<-function(dfx){
   
   
   
-  #NON SYN SITES (RIGHT GRAPH)
+  #NON SYNONYMOUS SITES (RIGHT GRAPH)
   #all green points for the right NON-synonomous site graph
   g <- frequenciesOfNONSynAmutsNONCP <- CSV[which(((CSV$TypeOfSite == "nonsyn"  )) & (CSV$WTnt == "a" & (CSV$bigAAChange == "0") &(CSV$makesCpG == "0"))),"MeanFreq"]
   k <- frequenciesOfNONSynAmutsNONCP <- CSV[which(((CSV$TypeOfSite == "nonsyn"  )) & (CSV$WTnt == "t" & (CSV$bigAAChange == "0") &(CSV$makesCpG == "0"))),"MeanFreq"]
@@ -63,10 +67,11 @@ pug<-function(dfx){
   mylist <- list (a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r) 
   mylist
   
+  
+  # Finding maximum row length and filling empty space with "NA"
   llngths<-lapply(mylist, function(x) length(x))
   vlngths<-unlist(llngths)
   maxlngth <- max(vlngths)
-  
   
   myfn<-function(x,maxlngth){
     length(x)<-maxlngth
@@ -86,13 +91,14 @@ pug<-function(dfx){
   mxstats<-rbind(mxstats,lcls)
   mxstats
   
+  # Constructing the data frame
   dfval<-data.frame(mtxmylst)
   names<-c("means","ucls","lcls")
   dfstats<-data.frame(mxstats,row.names = names)
   dfstats
   
   
-  
+  # Labelling/Naming
   rename
   dfval<-rename(dfval,c("X1"="val_a","X2"="val_b","X3"="val_c","X4"="val_d","X5"="val_e","X6"="val_f","X7"="val_g","X8"="val_h","X9"="val_i","X10"="val_j","X11"="val_k","X12"="val_l","X13"="val_m","X14"="val_n","X15"="val_o","X16"="val_p","X17"="val_q", "X18"= "val_r"))
   dfstats<-rename(dfstats,c("X1"="mut_a","X2"="mut_b","X3"="mut_c","X4"="mut_d","X5"="mut_e","X6"="mut_f","X7"="mut_g","X8"="mut_h","X9"="mut_i","X10"="mut_j","X11"="mut_k","X12"="mut_l","X13"="mut_m","X14"="mut_n","X15"="mut_o","X16"="mut_p","X17"="mut_q", "X18"= "mut_r"))
@@ -106,10 +112,10 @@ pug<-function(dfx){
   class(dfval[,2])
   class(dfstats[,2])
   
-  
+  # Creating Synonymous Plot
   Synplt <- ggplot() +
     
-    geom_point( data = dfval, mapping = aes(x="a", y= val_a), colour = "green", size = 0.1) +xlab("Mutation Type") + ylab("Samples' Average Frequencies of Mutations") +
+    geom_point( data = dfval, mapping = aes(x="a", y= val_a), colour = "green", size = 0.1) +xlab("Mutation Type") + ylab("Mutation Frequency") +
     geom_point(data = dfstats, mapping = aes (x = "a", y = dfstats["means","mut_a"]), colour = "green",size = 5.0) +
     geom_errorbar(data = dfstats,aes(x = "a", ymin= dfstats["lcls","mut_a"], ymax= dfstats["ucls","mut_a"]), color = "green",width=.5) +
     
@@ -166,10 +172,10 @@ pug<-function(dfx){
   
   
   
-  
+  # Creating Non-Synonymous Plot
   NonSynplt <- ggplot() +
     
-    geom_point( data = dfval, mapping = aes(x="g", y= val_g), colour = "green", size = 0.1) +xlab("Mutation Type") + ylab("Samples' Average Frequencies of Mutations") +
+    geom_point( data = dfval, mapping = aes(x="g", y= val_g), colour = "green", size = 0.1) +xlab("Mutation Type") + ylab("Mutation Frequency") +
     geom_point(data = dfstats, mapping = aes (x = "g", y = dfstats["means","mut_g"]), colour = "green",size = 5.0) +
     geom_errorbar(data = dfstats,aes(x = "g", ymin= dfstats["lcls","mut_g"], ymax= dfstats["ucls","mut_g"]), color = "green",width=.5) +
     
@@ -259,14 +265,15 @@ pug<-function(dfx){
   require(grid)
   require(gridExtra)
   title1=textGrob("
-                  Fig. 3: type of site vs frequency", gp=gpar(fontface="bold", fontsize = 16, cex = 1))
-  grid.arrange( top =title1,Synplt + ggtitle('Synonymous Plots'), NonSynplt + ggtitle('Non-synonymous Plots'),  nrow=1)
+                  Fig. 3: Frequencies", gp=gpar(fontface="bold", fontsize = 16, cex = 1))
+  grid.arrange( top =title1,Synplt + ggtitle('Synonymous Sites'), NonSynplt + ggtitle('Non-synonymous Sites'),  nrow=1)
   
+  # Creating the plot keys
   grid.text("KEY:
-            Color Green = Non Drastic AA change, non-CpG forming
-            Color Blue = Non Drastic AA change, non-CpG forming
-            Color Orange = Drastic AA change, non-CpG-forming
-            Color Red = Drastic AA change, CpG forming ", 
+            Green = No Drastic AA change (non-CpG forming)
+            Blue = No Drastic AA change (CpG forming)
+            Orange = Drastic AA change (non-CpG-forming)
+            Red = Drastic AA change (CpG forming) ", 
             x = unit(2, "cm"), y = unit(0.25,"cm"), just = "left", vjust = unit(0.0,"cm"))
   
   
@@ -279,5 +286,6 @@ pug<-function(dfx){
   
 }
 
-anything<-read.csv("OverviewSelCoeff_BachelerFilter.csv")
+### ENTER IN WHATEVER YOU NAMED THE PRACTICE DATA ###
+anything<-read.csv("HIV practice data.csv")
 pug(anything)
