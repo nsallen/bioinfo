@@ -1,19 +1,24 @@
-### The following packages only need to be installed once!
+### THESE PACKAGES MUST BE INSTALLED ONLY ONCE:
 install.packages("ggplot2")
 install.packages("plyr")
 install.packages("grid")
-install.packages("ape")
-install.packages("seqinr")
+install.packages("gridExtra")
+install.packages("scales")
 
-### Code begins here!
+### CODE BEGINS HERE:
+### SET YOUR WORKING DIRECTORY BEFORE STARTING:
+read.csv("OverviewSelCoeff_BachelerFilter.csv") -> CSV
+
+library(ggplot2)
+library(plyr)
+library(grid)
+library(scales)
+library(gridExtra)
+
+
 pug<-function(dfx){
-  setwd("~/Computer Science Texts + Syllabus/BioInformatics/R Data")
-  #read.csv("OverviewSelCoeff_BachelerFilter.csv") -> CSV
+
   CSV<-dfx
-  library("ggplot2", lib.loc="~/R/x86_64-pc-linux-gnu-library/3.4")
-  library("plyr", lib.loc="~/R/x86_64-pc-linux-gnu-library/3.4")
-  library(grid)
-  library("scales", lib.loc="~/R/x86_64-pc-linux-gnu-library/3.4")
   
   class(CSV)
   ##SYN SITES (LEFT GRAPH)
@@ -251,18 +256,17 @@ pug<-function(dfx){
     theme (panel.border = element_rect(colour = "black", fill=NA, size=3),plot.title = element_text(hjust = 0.5))
   
   #, vp=viewport(width=1.0, height=0.97)
-  library("gridExtra", lib.loc="~/R/x86_64-pc-linux-gnu-library/3.4")
   require(grid)
   require(gridExtra)
   title1=textGrob("
-                Fig. 3: type of site vs frequency", gp=gpar(fontface="bold", fontsize = 16, cex = 1))
+                  Fig. 3: type of site vs frequency", gp=gpar(fontface="bold", fontsize = 16, cex = 1))
   grid.arrange( top =title1,Synplt + ggtitle('Synonymous Plots'), NonSynplt + ggtitle('Non-synonymous Plots'),  nrow=1)
   
   grid.text("KEY:
-          Color Green = Non Drastic AA change, non-CpG forming
-          Color Blue = Non Drastic AA change, non-CpG forming
-          Color Orange = Drastic AA change, non-CpG-forming
-          Color Red = Drastic AA change, CpG forming ", 
+            Color Green = Non Drastic AA change, non-CpG forming
+            Color Blue = Non Drastic AA change, non-CpG forming
+            Color Orange = Drastic AA change, non-CpG-forming
+            Color Red = Drastic AA change, CpG forming ", 
             x = unit(2, "cm"), y = unit(0.25,"cm"), just = "left", vjust = unit(0.0,"cm"))
   
   
